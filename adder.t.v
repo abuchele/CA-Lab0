@@ -37,9 +37,9 @@ module testFourBit();
     reg carryin;
     reg[3:0] a, b;
     wire[3:0] sum;
-    wire carryout0, carryout1, carryout2, carryout3;
+    wire carryout0, carryout1, carryout2, carryout;
 
-    fourBitAdder fouradder (sum, carryout3, overflow, a, b, carryin);
+    fourBitAdder fouradder (sum, carryout, overflow, a, b, carryin);
 
     initial begin
     $dumpfile("adder.vcd");
@@ -47,14 +47,20 @@ module testFourBit();
 
     $display("   A   B   Carryin |  Sum   Carryout   |  Overflow  | Expected Output | Expected Carryout");
     a=0000;b=0000;carryin=0; #1000
-    $display(" %b %b    %b    |  %b      %b      |      %b     |       0000      |     0    ", a, b, carryin, sum, carryout3, overflow);
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0000      |     0    ", a, b, carryin, sum, carryout, overflow);
     a=0001;b=0000;carryin=0; #1000
-    $display(" %b %b    %b    |  %b      %b      |      %b     |       0001      |     0    ", a, b, carryin, sum, carryout3, overflow);
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0001      |     0    ", a, b, carryin, sum, carryout, overflow);
     a=0001;b=0001;carryin=0; #1000
-    $display(" %b %b    %b    |  %b      %b      |      %b     |       0010      |     0    ", a, b, carryin, sum, carryout3, overflow);
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0010      |     0    ", a, b, carryin, sum, carryout, overflow);
     a=1000;b=1000;carryin=0; #1000
-    $display(" %b %b    %b    |  %b      %b      |      %b     |       0000      |     1    ", a, b, carryin, sum, carryout3, overflow);
-    a=1100;b=0110;carryin=0; #1000
-    $display(" %b %b    %b    |  %b      %b      |      %b     |       1010      |     1    ", a, b, carryin, sum, carryout3, overflow);
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0000      |     1    ", a, b, carryin, sum, carryout, overflow);
+    a=1001;b=1001;carryin=0; #1000
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0010      |     1    ", a, b, carryin, sum, carryout, overflow);
+
+//these ones are being weird. the a and b written in are not what the thing displays. if you change it to fit what it displays, it changes again?
+    a=1100;b=1011;carryin=0; #1000
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       0111      |     1    ", a, b, carryin, sum, carryout, overflow);
+    a=1111;b=1111;carryin=0; #1000
+    $display(" %b %b    %b    |  %b      %b      |      %b     |       1010      |     1    ", a, b, carryin, sum, carryout, overflow);
     end
 endmodule
